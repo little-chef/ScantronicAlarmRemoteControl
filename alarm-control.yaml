@@ -1,0 +1,68 @@
+substitutions:
+  devicename: scantronic-alarm-control
+  friendly_name: Scantronic Alarm Control
+  device_description: Alarm Control panel emulation
+
+esp32:
+  board: nodemcu-32s
+
+web_server:
+  port: 80
+
+captive_portal:
+
+esphome:
+  name: ${devicename}
+  friendly_name: ${friendly_name}
+  comment: ${device_description}
+  includes:
+    - ${devicename}/src/alarm-control.h
+
+wifi:
+  networks:
+    - ssid: !secret esphome_wifi_network_ssid
+      password: !secret esphome_wifi_network_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${devicename}"
+    password: !secret esphome_wifi_ap_fallback_password
+
+# Enable logging
+logger:
+  level: INFO
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret esphome_hassio_api_encryption_key
+
+# Eenable Over-The-Air updates
+ota:
+  safe_mode: True
+  password: !secret esphome_hassio_ota_pw
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+switch:
+  - platform: restart
+    name: "${friendly_name} restart"
+
+custom_component:
+  - lambda: |-
+      return {new ScantronicAlarmControl()};
+    components:
+      - id: my_alarm_control
+
+sensor:
+  - platform: uptime
+    name: Uptime Sensor
+    id: uptime_sensor
+    update_interval: 60s
+    icon: mdi:clock-start
+
+  - platform: wifi_signal
+    name: "Boiler Room WiFi Signal"
+    update_interval: 60s
