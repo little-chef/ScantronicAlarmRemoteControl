@@ -1,6 +1,15 @@
 # Scantronic 9751/9752 Alarm Remote Control 
 
-WORK IN PROGRESS!
+:warning: *This project is read-only. There will be no follow up anymore.*:warning:
+
+It is so much easier to reimplement this old Alarm system with:
+* A [4-relay board based on an ESP32](https://lilygo.cc/products/t-relay). The relays are used for switching the siren, strobe light etc.
+* Have 16 ADC inputs where the PIRs are connected to with existing resistors, for example [2 x MCP3008](https://www.microchip.com/en-us/product/MCP3008)
+* Use the [ESPHome Alarm control panel component](https://esphome.io/components/alarm_control_panel/index.html) for implementing the state machine
+* Control panel like this [Shelly Wall Display X2](https://kb.shelly.cloud/knowledge-base/shelly-wall-display-x2), to control Home Assistant and the Alarm System.
+* Use a [nice metal box with power supply](https://www.elmdene.co.uk/12v-power-supplies/standby-power-security) and battery back up for housing the whole thing.
+Wire it all up, create some firmware for the ESP32, and let it run.
+Other advantages are that it enables remote access and PIRs can be used when the alarm is unarmed for detecting room occupance.
 
 ## Introduction
 
